@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITB Sostenible | Dashboard de Consums</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --itb-blue: #004481;
+            --itb-dark: #002d56;
+            --eco-green: #10b981;
+            --accent-amber: #f59e0b;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #f1f5f9;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(16, 185, 129, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #f1f5f9 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .status-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+        .bg-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% -20%, #1e293b 0%, #0f172a 100%);
+            z-index: -1;
+        }
+        .btn-unit-toggle {
+            display: flex;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2px;
+            border-radius: 6px;
+        }
+        .btn-unit {
+            padding: 2px 8px;
+            font-size: 9px;
+            font-weight: 800;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .btn-unit.active {
+            background: #3b82f6;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .btn-unit.inactive {
+            color: #64748b;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div id="app-content">
+        <div class="bg-glow"></div>
+
+        <!-- Navegació Superior -->
+        <nav class="sticky top-0 z-50 glass py-4 px-6 mb-8">
+            <div class="max-w-7xl mx-auto flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-emerald-500 rounded-lg flex items-center justify-center font-bold text-white shadow-lg">ITB</div>
+                    <span class="text-xl font-bold tracking-tight hidden sm:block">Sostenible <span class="text-emerald-500">3.0</span></span>
+                </div>
+                <div class="flex gap-6 text-sm font-medium text-slate-400">
+                    <a href="#calculadora" class="hover:text-white transition-colors">Calculadora</a>
+                    <a href="#solar" class="hover:text-white transition-colors">Solar</a>
+                    <a href="#alertes" class="hover:text-white transition-colors">Alertes</a>
+                </div>
+            </div>
+        </nav>
+
+        <main class="max-w-7xl mx-auto px-4 pb-20">
+
+            <!-- Header Hero -->
+            <header class="mb-12 text-center sm:text-left">
+                <h1 id="header-titol" class="text-5xl font-black mb-3 gradient-text">Institut Tecnològic de Barcelona</h1>
+                <div class="flex flex-wrap items-center justify-center sm:justify-start gap-4">
+                    <p id="header-periode" class="text-slate-400 font-medium">Càrculs 2024-2025</p>
+                    <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-slate-800 border border-slate-700 text-slate-300" id="header-font">Font de dades</span>
+                </div>
+            </header>
+
+            <!-- Grid Principal -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+                <!-- Panell de Control (Inputs) -->
+                <aside class="lg:col-span-4 space-y-6">
+                    <section id="calculadora" class="glass-card rounded-3xl p-8">
+                        <div class="flex items-center gap-3 mb-8">
+                            <div class="p-2 bg-blue-500/20 text-blue-400 rounded-lg">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                            </div>
+                            <h2 class="text-xl font-bold">Ajust de Variables</h2>
+                        </div>
+
+                        <div class="space-y-6" id="inputs-container">
+                            <!-- Inputs generats per JS -->
+                        </div>
+
+                        <div class="mt-8 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl">
+                            <p class="text-xs text-emerald-400 leading-relaxed">
+                                <span class="font-bold">Nota:</span> Els valors per defecte són mitjanes extretes de l'informe ITB Leaks.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- Resum Solar ràpid -->
+                    <section id="solar" class="glass-card rounded-3xl p-8 bg-gradient-to-br from-slate-800 to-slate-900 border-none shadow-2xl">
+                        <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                            <span class="text-amber-400">☀️</span> Planta Fotovoltaica
+                        </h3>
+                        <div class="grid grid-cols-2 gap-4 text-center">
+                            <div class="p-4 bg-white/5 rounded-2xl">
+                                <span class="block text-[10px] uppercase text-slate-500 mb-1">Cobertura</span>
+                                <span id="solar-cobertura" class="text-xl font-bold text-amber-400">--</span>
+                            </div>
+                            <div class="p-4 bg-white/5 rounded-2xl">
+                                <span class="block text-[10px] uppercase text-slate-500 mb-1">CO₂ Estalviat</span>
+                                <span id="solar-co2" class="text-xl font-bold text-emerald-400">--</span>
+                            </div>
+                        </div>
+                        <p id="solar-obs" class="mt-4 text-[11px] text-slate-500 leading-tight italic text-center"></p>
+                    </section>
+                </aside>
+
+                <!-- Visualització de Resultats -->
+                <div class="lg:col-span-8 space-y-8">
+
+                    <!-- Targetes d'Indicadors -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="indicators-grid">
+                        <!-- Cards generats -->
+                    </div>
+
+                    <!-- Pla d'Acció Detallat -->
+                    <section class="glass-card rounded-3xl p-10 overflow-hidden relative">
+                        <div class="absolute -top-24 -right-24 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl"></div>
+
+                        <div class="relative z-10">
+                            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+                                <div>
+                                    <span class="status-badge px-3 py-1 rounded-full text-[10px] font-bold uppercase mb-3 inline-block">Objectiu Estratègic</span>
+                                    <h2 class="text-3xl font-black">Estalvi Estimat del 30%</h2>
+                                    <p class="text-slate-400 mt-2">Mesures d'optimització per a l'exercici 2025.</p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="block text-xs text-slate-500 mb-1 uppercase tracking-wider">Estalvi Net Anual</span>
+                                    <span id="total-estalvi-valor" class="text-4xl font-black text-emerald-400 mono">-- €</span>
+                                </div>
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-8 mb-8" id="plan-details">
+                                <!-- Detalls del pla -->
+                            </div>
+
+                            <div class="p-6 bg-white/5 rounded-2xl border border-white/10">
+                                <div class="flex justify-between items-center mb-4">
+                                    <span class="text-sm font-medium text-slate-300">Projecció Cost Global Anual</span>
+                                    <span id="total-actual" class="text-slate-500 line-through text-sm">-- €</span>
+                                </div>
+                                <div class="w-full bg-slate-700 h-4 rounded-full overflow-hidden mb-2">
+                                    <div class="bg-gradient-to-r from-emerald-600 to-emerald-400 h-full w-[70%]"></div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] text-slate-500 uppercase font-bold">Situació Amb Millores</span>
+                                    <span id="total-millora" class="text-xl font-black text-emerald-400 mono">-- €</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Alertes -->
+                    <section id="alertes" class="grid sm:grid-cols-2 gap-6">
+                        <div class="glass-card rounded-2xl p-6" id="anomalies-container">
+                            <h4 class="text-sm font-bold uppercase text-slate-500 mb-4 flex items-center gap-2">
+                                <span class="text-red-400">⚠️</span> Alertes de Sistema
+                            </h4>
+                            <div id="anomalies-list" class="space-y-3">
+                                <!-- Anomalies -->
+                            </div>
+                        </div>
+                        <div class="glass-card rounded-2xl p-6">
+                            <h4 class="text-sm font-bold uppercase text-slate-500 mb-4 flex items-center gap-2">
+                                <span class="text-blue-400">ℹ️</span> Context ITB
+                            </h4>
+                            <p id="context-text" class="text-xs text-slate-400 leading-relaxed"></p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let fullData = null;
+        let waterUnit = 'L'; // Unitat actual
+
+        async function fetchData() {
+            try {
+                const response = await fetch('dades.json');
+                if (!response.ok) throw new Error('No es troba el fitxer dades.json');
+                fullData = await response.json();
+                renderApp();
+            } catch (error) {
+                console.error(error);
+                document.getElementById('app-content').innerHTML = `
+                    <div class="h-screen flex items-center justify-center p-10 text-center bg-[#0f172a]">
+                        <div class="max-w-md">
+                            <div class="text-5xl mb-6">📂</div>
+                            <h1 class="text-2xl font-bold mb-2 text-white">Fitxer de dades no trobat</h1>
+                            <p class="text-slate-500">Assegura't de tenir <code class="bg-slate-800 p-1 rounded text-blue-400 font-mono">dades.json</code> a la mateixa carpeta que aquest fitxer HTML.</p>
+                            <div class="mt-8 p-4 glass rounded-xl text-left">
+                                <p class="text-[10px] uppercase font-bold text-slate-500 mb-2">Error Log:</p>
+                                <p class="text-xs text-red-400 font-mono">${error.message}</p>
+                            </div>
+                        </div>
+                    </div>`;
+            }
+        }
+
+        function setWaterUnit(unit) {
+            const input = document.getElementById('in_aigua');
+            let val = parseFloat(input.value) || 0;
+
+            if (unit === 'M3' && waterUnit === 'L') {
+                input.value = (val / 1000).toFixed(3);
+            } else if (unit === 'L' && waterUnit === 'M3') {
+                input.value = Math.round(val * 1000);
+            }
+
+            waterUnit = unit;
+
+            // Actualitzar estils botons
+            document.getElementById('btn_L').className = `btn-unit ${unit === 'L' ? 'active' : 'inactive'}`;
+            document.getElementById('btn_M3').className = `btn-unit ${unit === 'M3' ? 'active' : 'inactive'}`;
+
+            calculate();
+        }
+
+        function renderApp() {
+            // Header
+            document.getElementById('header-titol').innerText = fullData.centre;
+            document.getElementById('header-periode').innerText = `Període Lectiu ${fullData.periode}`;
+            document.getElementById('header-font').innerText = fullData.font;
+
+            // Inputs
+            const mapping = [
+                { id: 'aigua', label: 'Consum Aigua', val: fullData.indicadors_resum.indicadors[0].valor_base, isWater: true },
+                { id: 'electric', label: 'Consum Elèctric (kWh/dia)', val: fullData.indicadors_resum.indicadors[1].valor_base_consum },
+                { id: 'oficina', label: 'Material Oficina (€/mes)', val: Math.round(fullData.consumibles_oficina.resum.total_gastat_EUR / 12) },
+                { id: 'neteja', label: 'Productes Neteja (€/mes)', val: Math.round(fullData.productes_neteja.resum.total_gastat_EUR / 12) },
+                { id: 'telecom', label: 'Telecoms (€/mes)', val: fullData.telecomunicacions.resum.cost_mensual_telecomunicacions_EUR },
+                { id: 'mant', label: 'Manteniment (€/mes)', val: Math.round(fullData.manteniment.resum.total_gastat_manteniment_EUR / 12) }
+            ];
+
+            const inputsContainer = document.getElementById('inputs-container');
+            inputsContainer.innerHTML = mapping.map(m => `
+                <div class="group">
+                    <div class="flex justify-between items-center mb-2 ml-1">
+                        <label class="text-[10px] uppercase font-bold text-slate-500 group-focus-within:text-blue-400 transition-colors">${m.label}</label>
+                        ${m.isWater ? `
+                            <div class="btn-unit-toggle">
+                                <button onclick="setWaterUnit('L')" id="btn_L" class="btn-unit active">L</button>
+                                <button onclick="setWaterUnit('M3')" id="btn_M3" class="btn-unit inactive">m³</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                    <input type="number" id="in_${m.id}" value="${m.val}" oninput="calculate()"
+                        class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all mono">
+                </div>
+            `).join('');
+
+            // Indicators Grid
+            const indicatorsGrid = document.getElementById('indicators-grid');
+            indicatorsGrid.innerHTML = fullData.indicadors_resum.indicadors.map(ind => `
+                <div class="glass-card rounded-3xl p-6">
+                    <div class="flex justify-between items-start mb-6">
+                        <h3 class="text-xs font-black uppercase tracking-widest text-slate-500">${ind.nom}</h3>
+                        <div class="text-[10px] font-bold px-2 py-1 bg-white/5 rounded text-slate-400">ANUAL</div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-end">
+                            <span class="text-3xl font-black mono" id="calc_${ind.id}">0</span>
+                            <span class="text-xs text-slate-500 mb-1" id="unit_display_${ind.id}">--</span>
+                        </div>
+                        <div class="pt-4 border-t border-white/5">
+                            <div class="flex justify-between text-[10px] font-bold text-emerald-500 uppercase mb-2">
+                                <span>Objectiu Sostenible</span>
+                                <span>-30%</span>
+                            </div>
+                            <div class="text-lg font-bold text-emerald-400 mono" id="goal_${ind.id}">0</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Solar
+            const s = fullData.consum_electric_solar.resum_gener_2025;
+            document.getElementById('solar-cobertura').innerText = `${s["cobertura_solar_mitjana_%"]}%`;
+            document.getElementById('solar-co2').innerText = `${s.CO2_evitat_total_t}t`;
+            document.getElementById('solar-obs').innerText = s.observacions;
+
+            // Anomalies
+            const anomaliesList = document.getElementById('anomalies-list');
+            anomaliesList.innerHTML = `
+                <div class="flex gap-3">
+                    <div class="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 shrink-0"></div>
+                    <p class="text-[11px] text-slate-400"><strong class="text-slate-200">Aigua:</strong> ${fullData.consum_aigua.resum.anomalia_detectada}</p>
+                </div>
+                <div class="flex gap-3">
+                    <div class="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 shrink-0"></div>
+                    <p class="text-[11px] text-slate-400"><strong class="text-slate-200">Consumibles:</strong> ${fullData.consumibles_oficina.resum.observacio}</p>
+                </div>
+            `;
+
+            // Plan details
+            const planDetails = document.getElementById('plan-details');
+            planDetails.innerHTML = fullData.indicadors_resum.indicadors.map(ind => `
+                <div class="flex gap-4 p-4 rounded-2xl hover:bg-white/5 transition-colors">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
+                        <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-200 mb-1">${ind.nom}</h4>
+                        <p class="text-[11px] text-slate-500 leading-relaxed">${ind.potencial_estalvi}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('context-text').innerText = `Les dades de consumibles han estat extretes de les factures oficials del període ${fullData.periode}.`;
+
+            calculate();
+        }
+
+        function calculate() {
+            if (!fullData) return;
+
+            const aiguaInput = parseFloat(document.getElementById('in_aigua').value) || 0;
+            const aiguaLitresDia = waterUnit === 'M3' ? aiguaInput * 1000 : aiguaInput;
+
+            const val = {
+                aigua: aiguaLitresDia,
+                elec: parseFloat(document.getElementById('in_electric').value) || 0,
+                ofi: parseFloat(document.getElementById('in_oficina').value) || 0,
+                net: parseFloat(document.getElementById('in_neteja').value) || 0,
+                tel: parseFloat(document.getElementById('in_telecom').value) || 0,
+                mant: parseFloat(document.getElementById('in_mant').value) || 0
+            };
+
+            const format = (v) => v.toLocaleString('ca-ES', { maximumFractionDigits: 0 });
+            const formatM3 = (v) => (v/1000).toLocaleString('ca-ES', { maximumFractionDigits: 1 });
+            const formatCur = (v) => v.toLocaleString('ca-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+
+            // Aigua
+            const aiguaAnual = val.aigua * 365;
+            if (waterUnit === 'M3') {
+                document.getElementById('calc_IND-01').innerText = formatM3(aiguaAnual);
+                document.getElementById('goal_IND-01').innerText = formatM3(aiguaAnual * 0.7);
+                document.getElementById('unit_display_IND-01').innerText = "m³";
+            } else {
+                document.getElementById('calc_IND-01').innerText = format(aiguaAnual);
+                document.getElementById('goal_IND-01').innerText = format(aiguaAnual * 0.7);
+                document.getElementById('unit_display_IND-01').innerText = "L";
+            }
+
+            // Elèctric
+            const elecAnual = val.elec * 365;
+            document.getElementById('calc_IND-02').innerText = format(elecAnual);
+            document.getElementById('goal_IND-02').innerText = format(elecAnual * 0.7);
+            document.getElementById('unit_display_IND-02').innerText = "kWh";
+
+            // Oficina
+            const ofiAnual = val.ofi * 12;
+            document.getElementById('calc_IND-03').innerText = format(ofiAnual);
+            document.getElementById('goal_IND-03').innerText = format(ofiAnual * 0.7);
+            document.getElementById('unit_display_IND-03').innerText = "€";
+
+            // Neteja
+            const netAnual = val.net * 12;
+            document.getElementById('calc_IND-04').innerText = format(netAnual);
+            document.getElementById('goal_IND-04').innerText = format(netAnual * 0.7);
+            document.getElementById('unit_display_IND-04').innerText = "€";
+
+            // Totals
+            const costActual = (aiguaAnual * 0.0021) + (elecAnual * 0.18) + ofiAnual + netAnual + (val.tel * 12) + (val.mant * 12);
+            const costMillora = costActual * 0.7;
+            const estalviNet = costActual - costMillora;
+
+            document.getElementById('total-actual').innerText = formatCur(costActual);
+            document.getElementById('total-millora').innerText = formatCur(costMillora);
+            document.getElementById('total-estalvi-valor').innerText = formatCur(estalviNet);
+        }
+
+        window.onload = fetchData;
+    </script>
+</body>
+</html>
