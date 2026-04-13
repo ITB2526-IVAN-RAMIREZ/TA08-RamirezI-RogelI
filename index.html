@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITB Sostenible | Calculadora Energètica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Estils integrats des de styles.css */
+        :root {
+            /* Sustainability Palette — Light / White adaptada a la identitat visual */
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --bg-card-hover: rgba(51, 65, 85, 0.8);
+            --bg-glass: rgba(15, 23, 42, 0.8);
+
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --text-accent: #10b981;
+
+            --border-color: rgba(255, 255, 255, 0.1);
+            --border-hover: rgba(16, 185, 129, 0.3);
+
+            /* Indicator Colors */
+            --water-blue: #3b82f6;
+            --energy-yellow: #f59e0b;
+            --paper-purple: #8b5cf6;
+            --clean-green: #10b981;
+
+            --itb-blue: #004481;
+            --itb-dark: #002d56;
+            --eco-green: #10b981;
+            --accent-amber: #f59e0b;
+
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 1.5rem;
+            --space-lg: 2rem;
+            --space-xl: 3rem;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            background: var(--bg-card-hover);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #f1f5f9 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% -20%, #1e293b 0%, #0f172a 100%);
+            z-index: -1;
+        }
+
+        .nav-link-active {
+            color: white;
+            border-bottom: 2px solid var(--eco-green);
+        }
+
+        select option {
+            background: #1e293b;
+            color: white;
+        }
+
+        /* Animacions de styles.css */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in { animation: fadeInUp 600ms ease forwards; opacity: 0; }
+        .fade-in-delay-1 { animation-delay: 100ms; }
+        .fade-in-delay-2 { animation-delay: 200ms; }
+        .fade-in-delay-3 { animation-delay: 300ms; }
+
+        /* Estils de l'indicador d'estat */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--eco-green);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        /* Taula de dades (estil original Fase 3) */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--space-md);
+        }
+        .data-table th {
+            text-align: left;
+            padding: var(--space-sm);
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+        .data-table td {
+            padding: var(--space-sm);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="bg-glow"></div>
+
+    <!-- Navegació adaptada -->
+    <nav class="sticky top-0 z-50 glass py-4 px-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-emerald-500 rounded-lg flex items-center justify-center font-bold text-white shadow-lg">ITB</div>
+                <span class="text-xl font-bold tracking-tight">Calculadora <span class="text-emerald-500">3.0</span></span>
+            </div>
+            <div class="flex gap-6 text-sm font-medium text-slate-400">
+                <a href="#" class="nav-link-active hover:text-white transition-colors">📊 Calculadora</a>
+                <a href="#projeccio" class="hover:text-white transition-colors">📉 Reducció</a>
+                <a href="#pla-accio" class="hover:text-white transition-colors">📋 Pla d'Acció</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 py-12">
+        <!-- Hero Section -->
+        <header class="mb-16 text-center lg:text-left fade-in">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-6">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                Fase 3 — Motor de Projecció
+            </div>
+            <h1 class="text-5xl lg:text-6xl font-black mb-6 gradient-text leading-tight">Analitza el consum i <br>projecta l'estalvi real.</h1>
+            <p class="text-slate-400 text-lg max-w-2xl">
+                Càlculs basats en <span class="text-white font-semibold">+3.2% d'IPC</span> i <span class="text-white font-semibold">+1.5% de tendència</span> d'ús per al curs 2025-2026.
+            </p>
+        </header>
+
+        <!-- Secció de Controls de la Calculadora -->
+        <section class="glass-card p-8 mb-12 fade-in fade-in-delay-1">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-slate-500 uppercase">Indicador</label>
+                    <select id="select-indicador" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none text-white transition-all">
+                        <option value="electricitat">⚡ Elèctric (kWh)</option>
+                        <option value="aigua">💧 Aigua (m³)</option>
+                        <option value="oficina">📄 Oficina (Paquets)</option>
+                        <option value="neteja">🧼 Neteja (Kg/L)</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-slate-500 uppercase">Valor Base Actual</label>
+                    <input type="number" id="input-base" placeholder="Introdueix consum anual..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none text-white transition-all">
+                </div>
+                <button onclick="realitzarCalcul()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg shadow-emerald-900/20 active:scale-95">
+                    🔄 Calcular Projecció
+                </button>
+            </div>
+            <div class="mt-4 flex gap-3">
+                <span class="badge">📈 IPC: +3.2%</span>
+                <span class="badge">📉 Tendència: +1.5%</span>
+            </div>
+        </section>
+
+        <!-- Resultats Dinàmics -->
+        <div id="results-area" class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16 hidden">
+            <!-- Card Històric -->
+            <div class="glass-card p-8 border-l-4 border-l-slate-500 fade-in">
+                <span class="text-xs font-bold text-slate-500 uppercase">Actual (24/25)</span>
+                <div class="mt-4">
+                    <span id="res-hist-val" class="text-4xl font-black text-white mono">0</span>
+                    <span id="res-hist-unit" class="text-slate-400 ml-1">unitats</span>
+                </div>
+                <div class="mt-2 text-sm text-slate-500">Cost estimat: <span id="res-hist-cost" class="font-bold">0 €</span></div>
+            </div>
+
+            <!-- Card Projectat -->
+            <div class="glass-card p-8 border-l-4 border-l-emerald-500 bg-emerald-500/5 fade-in fade-in-delay-1">
+                <span class="text-xs font-bold text-emerald-500 uppercase">Projectat (25/26)</span>
+                <div class="mt-4">
+                    <span id="res-proj-val" class="text-4xl font-black text-emerald-400 mono">0</span>
+                    <span id="res-proj-unit" class="text-emerald-600/60 ml-1">unitats</span>
+                </div>
+                <div class="mt-2 text-sm text-emerald-600/80">Cost amb IPC: <span id="res-proj-cost" class="font-bold">0 €</span></div>
+            </div>
+
+            <!-- Card Estalvi -->
+            <div class="glass-card p-8 border-l-4 border-l-amber-500 fade-in fade-in-delay-2">
+                <span class="text-xs font-bold text-amber-500 uppercase">Objectiu Millora (-30%)</span>
+                <div class="mt-4">
+                    <span id="res-millora-val" class="text-4xl font-black text-amber-400 mono">0</span>
+                    <span id="res-millora-unit" class="text-amber-600/60 ml-1">€ estalviats</span>
+                </div>
+                <div class="mt-2 text-sm text-amber-600/80">Nou cost total: <span id="res-millora-total" class="font-bold">0 €</span></div>
+            </div>
+        </div>
+
+        <!-- Gràfica Comparativa -->
+        <section id="grafica" class="glass-card p-8 lg:p-10 mb-16 fade-in fade-in-delay-2">
+            <h3 class="text-xl font-bold mb-8 flex items-center gap-2 text-white">
+                <span class="text-blue-400">📊</span> Comparativa de Despesa Econòmica (€)
+            </h3>
+            <div class="relative h-[400px]">
+                <canvas id="mainChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Pla d'Acció Resum -->
+        <section id="pla-accio" class="relative overflow-hidden glass-card p-10 border border-emerald-500/20 fade-in fade-in-delay-3">
+            <div class="absolute -top-24 -right-24 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl"></div>
+            <div class="relative z-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
+                <div>
+                    <h2 class="text-3xl font-black mb-2">Pla d'Acció a 3 Anys</h2>
+                    <p class="text-slate-400 max-w-xl">Implementació de millores d'eficiència i economia circular per reduir l'impacte ambiental del centre un 30%.</p>
+                </div>
+                <div class="bg-slate-900/80 p-6 rounded-2xl border border-white/5 text-right min-w-[200px]">
+                    <span class="block text-[10px] text-slate-500 uppercase font-bold mb-1 tracking-widest">Estalvi Net Projectat</span>
+                    <span id="total-global-savings" class="text-4xl font-black text-emerald-400 mono">0 €</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="mt-20 py-10 border-t border-white/5 text-center text-slate-600 text-sm">
+        <p>🌿 Calculadora ITB — Versió Adaptada amb Estils Sostenibles · Dades 2025</p>
+    </footer>
+
+    <script>
+        // --- CONFIGURACIÓ DE FÒRMULES ---
+        const CONFIG = {
+            IPC: 0.032,
+            TENDENCIA: 0.015,
+            REDUCCIO_OBJECTIU: 0.30,
+            PREUS: {
+                electricitat: 0.18,
+                aigua: 2.10,
+                oficina: 5.00,
+                neteja: 3.50
+            }
+        };
+
+        let chartInstance = null;
+
+        function realitzarCalcul() {
+            const tipus = document.getElementById('select-indicador').value;
+            const valorBase = parseFloat(document.getElementById('input-base').value);
+
+            if (isNaN(valorBase) || valorBase <= 0) return;
+
+            // 1. Càlcul Històric
+            const costHist = valorBase * CONFIG.PREUS[tipus];
+
+            // 2. Càlcul Projecció (Fòrmula: base * tendencia * (preu * ipc))
+            const valorProjectat = valorBase * (1 + CONFIG.TENDENCIA);
+            const costProjectat = valorProjectat * (CONFIG.PREUS[tipus] * (1 + CONFIG.IPC));
+
+            // 3. Càlcul Millora (Estalvi del 30% sobre el projectat)
+            const estalviNet = costProjectat * CONFIG.REDUCCIO_OBJECTIU;
+            const costAmbMillora = costProjectat - estalviNet;
+
+            // Mostrar Resultats
+            document.getElementById('results-area').classList.remove('hidden');
+
+            // UI Històric
+            document.getElementById('res-hist-val').innerText = valorBase.toLocaleString();
+            document.getElementById('res-hist-unit').innerText = tipus === 'electricitat' ? 'kWh' : (tipus === 'aigua' ? 'm³' : 'unitats');
+            document.getElementById('res-hist-cost').innerText = costHist.toLocaleString(undefined, {style:'currency', currency:'EUR'});
+
+            // UI Projectat
+            document.getElementById('res-proj-val').innerText = Math.round(valorProjectat).toLocaleString();
+            document.getElementById('res-proj-cost').innerText = costProjectat.toLocaleString(undefined, {style:'currency', currency:'EUR'});
+
+            // UI Estalvi
+            document.getElementById('res-millora-val').innerText = estalviNet.toLocaleString(undefined, {maximumFractionDigits:0}) + ' €';
+            document.getElementById('res-millora-total').innerText = costAmbMillora.toLocaleString(undefined, {style:'currency', currency:'EUR'});
+            document.getElementById('total-global-savings').innerText = estalviNet.toLocaleString(undefined, {maximumFractionDigits:0}) + ' €';
+
+            updateChart(tipus, costHist, costProjectat, costAmbMillora);
+        }
+
+        function updateChart(label, hist, proj, millora) {
+            const ctx = document.getElementById('mainChart').getContext('2d');
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Cost Històric', 'Cost Projectat (+IPC)', 'Cost amb Millores (-30%)'],
+                    datasets: [{
+                        label: 'Despesa Econòmica en €',
+                        data: [hist, proj, millora],
+                        backgroundColor: [
+                            'rgba(148, 163, 184, 0.2)',
+                            'rgba(16, 185, 129, 0.4)',
+                            'rgba(245, 158, 11, 0.6)'
+                        ],
+                        borderColor: [
+                            '#94a3b8',
+                            '#10b981',
+                            '#f59e0b'
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 12
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#64748b' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#f1f5f9' }
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = () => {
+            const ctx = document.getElementById('mainChart').getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: ['Històric', 'Projectat', 'Amb Millora'], datasets: [{ data: [0,0,0] }] },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        };
+    </script>
+</body>
+</html>

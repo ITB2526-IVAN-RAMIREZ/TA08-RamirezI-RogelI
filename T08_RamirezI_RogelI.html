@@ -54,8 +54,8 @@
 
         .projection-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
         }
 
         .chart-container {
@@ -76,9 +76,9 @@
                     <span class="text-xl font-bold tracking-tight hidden sm:block">Sostenible <span class="text-emerald-500">3.0</span></span>
                 </div>
                 <div class="flex gap-6 text-sm font-medium text-slate-400">
-                    <a href="#avaluacio" class="hover:text-white transition-colors">Avaluació</a>
+                    <a href="#historic" class="hover:text-white transition-colors">Històric (24/25)</a>
+                    <a href="#projeccio" class="hover:text-white transition-colors">Projecció (25/26)</a>
                     <a href="#grafica" class="hover:text-white transition-colors">Gràfiques</a>
-                    <a href="#solar" class="hover:text-white transition-colors">Solar</a>
                 </div>
             </div>
         </nav>
@@ -94,29 +94,53 @@
 
             <div class="grid grid-cols-1 gap-12">
 
-                <!-- SECCIÓ D'AVALUACIÓ I PROJECCIONS -->
-                <section id="avaluacio" class="glass-card rounded-3xl p-8 lg:p-10">
-                    <div class="flex items-center justify-between mb-10">
+                <!-- 1. SECCIÓ D'HISTÒRIC (DADES BASE) -->
+                <section id="historic" class="glass-card rounded-3xl p-8 lg:p-10 border-l-4 border-l-slate-500">
+                    <div class="flex items-center justify-between mb-8">
                         <div class="flex items-center gap-3">
-                            <div class="p-3 bg-emerald-500/20 text-emerald-400 rounded-xl">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                            <div class="p-3 bg-slate-500/20 text-slate-300 rounded-xl">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
                             <div>
-                                <h2 class="text-3xl font-black">Evaluació de Consum</h2>
-                                <p class="text-slate-400 text-sm">Projeccions basades en dades històriques</p>
+                                <h2 class="text-2xl font-black text-slate-200">Dades Històriques (Curs 2024-2025)</h2>
+                                <p class="text-slate-400 text-sm">Consum base de l'últim curs registrat (Setembre - Agost)</p>
                             </div>
                         </div>
                     </div>
-
-                    <div class="projection-grid" id="evaluacio-container">
+                    <div class="projection-grid" id="historico-container">
                         <!-- Generat per JS -->
                     </div>
                 </section>
 
-                <!-- SECCIÓ DE GRÀFICA -->
+                <!-- 2. SECCIÓ DE PROJECCIÓ (AMB FÒRMULES I IPC) -->
+                <section id="projeccio" class="glass-card rounded-3xl p-8 lg:p-10 border-l-4 border-l-emerald-500 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -z-10"></div>
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="p-3 bg-emerald-500/20 text-emerald-400 rounded-xl">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                            </div>
+                            <div>
+                                <h2 class="text-3xl font-black text-white">Projecció Curs 2025-2026</h2>
+                                <p class="text-slate-400 text-sm">Càlcul per al proper curs (Setembre - Agost) basat en la inflació i l'activitat</p>
+                            </div>
+                        </div>
+
+                        <!-- Badges d'ajustament de fòrmula -->
+                        <div class="flex gap-2 flex-wrap">
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-blue-500/10 text-blue-400 border border-blue-500/20" id="badge-ipc">IPC Aplicat: --%</span>
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-amber-500/10 text-amber-400 border border-amber-500/20" id="badge-hist">Tendència Consum: --%</span>
+                        </div>
+                    </div>
+                    <div class="projection-grid" id="projeccio-container">
+                        <!-- Generat per JS -->
+                    </div>
+                </section>
+
+                <!-- 3. SECCIÓ DE GRÀFICA COMPARATIVA -->
                 <section id="grafica" class="glass-card rounded-3xl p-8 lg:p-10">
                     <h3 class="text-xl font-bold mb-8 flex items-center gap-2">
-                        <span class="text-blue-400">📊</span> Comparativa Anual vs Curs Lectiu
+                        <span class="text-blue-400">📊</span> Comparativa de Despesa Econòmica (Cost Total €)
                     </h3>
                     <div class="chart-container">
                         <canvas id="consumptionChart"></canvas>
@@ -127,7 +151,7 @@
                     <!-- Resum Solar -->
                     <section id="solar" class="glass-card rounded-3xl p-8 bg-gradient-to-br from-slate-800 to-slate-900 border-none shadow-2xl">
                         <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
-                            <span class="text-amber-400">☀️</span> Planta Fotovoltaica
+                            <span class="text-amber-400">☀️</span> Planta Fotovoltaica (Dada Històrica)
                         </h3>
                         <div class="grid grid-cols-2 gap-4 text-center">
                             <div class="p-4 bg-white/5 rounded-2xl">
@@ -146,45 +170,46 @@
                     <div class="space-y-6">
                         <div class="glass-card rounded-2xl p-6 h-full">
                             <h4 class="text-sm font-bold uppercase text-slate-500 mb-4 flex items-center gap-2">
-                                <span class="text-red-400">⚠️</span> Alertes i Context
+                                <span class="text-red-400">⚠️</span> Alertes d'Anomalies
                             </h4>
                             <div id="anomalies-list" class="space-y-3 mb-4"></div>
-                            <p id="context-text" class="text-xs text-slate-400 border-t border-white/5 pt-4"></p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Pla d'Acció Detallat -->
+                <!-- Pla d'Acció Detallat i Econòmic -->
                 <section class="glass-card rounded-3xl p-10 overflow-hidden relative">
-                    <div class="absolute -top-24 -right-24 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl"></div>
+                    <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl z-0"></div>
 
                     <div class="relative z-10">
                         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
                             <div>
-                                <span class="status-badge px-3 py-1 rounded-full text-[10px] font-bold uppercase mb-3 inline-block">Objectiu Estratègic</span>
+                                <span class="status-badge px-3 py-1 rounded-full text-[10px] font-bold uppercase mb-3 inline-block">Objectiu Estratègic d'Estalvi</span>
                                 <h2 class="text-3xl font-black">Estalvi Estimat del 30%</h2>
-                                <p class="text-slate-400 mt-2">Mesures d'optimització aplicables segons l'informe.</p>
+                                <p class="text-slate-400 mt-2">Basat en els costos projectats per al pròxim curs amb inflació inclosa.</p>
                             </div>
-                            <div class="text-right">
-                                <span class="block text-xs text-slate-500 mb-1 uppercase tracking-wider">Estalvi Net Anual (Estimat)</span>
+                            <div class="text-right bg-slate-900/50 p-4 rounded-2xl border border-white/5">
+                                <span class="block text-xs text-slate-500 mb-1 uppercase tracking-wider">Estalvi Net Curs (Projectat)</span>
                                 <span id="total-estalvi-valor" class="text-4xl font-black text-emerald-400 mono">-- €</span>
                             </div>
                         </div>
 
-                        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" id="plan-details">
-                            <!-- Detalls -->
-                        </div>
-
-                        <div class="p-6 bg-white/5 rounded-2xl border border-white/10">
+                        <div class="p-6 bg-white/5 rounded-2xl border border-white/10 mt-8">
                             <div class="flex justify-between items-center mb-4">
-                                <span class="text-sm font-medium text-slate-300">Projecció Cost Global Anual</span>
-                                <span id="total-actual" class="text-slate-500 line-through text-sm">-- €</span>
+                                <span class="text-sm font-medium text-slate-300">Cost Total Curs 2024-2025 (Sense IPC)</span>
+                                <span id="total-historic" class="text-slate-400 font-mono text-sm">-- €</span>
                             </div>
-                            <div class="w-full bg-slate-700 h-4 rounded-full overflow-hidden mb-2">
+                            <div class="flex justify-between items-center mb-4 border-t border-white/10 pt-4">
+                                <span class="text-sm font-bold text-white">Projecció Cost Global Curs 2025-2026 (Amb IPC i Tendència)</span>
+                                <span id="total-projectat" class="text-white font-bold text-lg mono">-- €</span>
+                            </div>
+
+                            <div class="w-full bg-slate-700 h-4 rounded-full overflow-hidden mb-2 mt-6">
                                 <div id="progress-bar" class="bg-gradient-to-r from-emerald-600 to-emerald-400 h-full transition-all duration-1000" style="width: 70%"></div>
                             </div>
+
                             <div class="flex justify-between items-center">
-                                <span class="text-[10px] text-slate-500 uppercase font-bold">Situació Amb Millores (Projectat)</span>
+                                <span class="text-[10px] text-emerald-500 uppercase font-bold">Cost Final Aplicant Pla de Millores (-30%)</span>
                                 <span id="total-millora" class="text-xl font-black text-emerald-400 mono">-- €</span>
                             </div>
                         </div>
@@ -198,12 +223,21 @@
         let fullData = null;
         let chartInstance = null;
 
-        // Funció per carregar el fitxer JSON del mateix directori
+        // FÓRMULES DE CÀLCUL I ESTIMACIONS
+        const IPC_ESTIMAT = 0.032; // +3.2% d'inflació en preus
+        const VARIACIO_HISTORICA_CONSUM = 0.015; // +1.5% d'augment en el consum físic o de desgast
+
+        // Costos unitaris estimats per traduir € a mètriques físiques o a l'inrevés
+        const PREU_AIGUA_M3 = 2.10; // € per m3
+        const PREU_ELEC_KWH = 0.18; // € per kWh
+        const PREU_PAQUET_FOLIS = 5.00; // € aproximat per paquet de paper (Oficina)
+        const PREU_KG_NETEJA = 3.50; // € aproximat per Kg o Litre de producte neteja
+        const PREU_INTERVENCIO = 150.00; // € aproximat per intervenció de manteniment
+
         async function fetchData() {
             try {
-                // Forcem la lectura des del directori actual
                 const response = await fetch('dades.json');
-                if (!response.ok) throw new Error('Fitxer dades.json no detectat al directori');
+                if (!response.ok) throw new Error('Fitxer dades.json no detectat');
                 fullData = await response.json();
                 renderApp();
             } catch (error) {
@@ -223,105 +257,175 @@
         function renderApp() {
             if (!fullData) return;
 
+            // Mostrar els factors aplicats a la UI
+            document.getElementById('badge-ipc').innerText = `IPC: +${(IPC_ESTIMAT * 100).toFixed(1)}% (Preus)`;
+            document.getElementById('badge-hist').innerText = `Tendència: +${(VARIACIO_HISTORICA_CONSUM * 100).toFixed(1)}% (Ús)`;
+
             document.getElementById('header-titol').innerText = fullData.centre;
-            document.getElementById('header-periode').innerText = `Període ${fullData.periode}`;
+            document.getElementById('header-periode').innerText = `Dades obtingudes del període: ${fullData.periode}`;
             document.getElementById('header-font').innerText = fullData.font;
 
-            // Dades Base del JSON
-            const baseAiguaL = fullData.indicadors_resum.indicadors[0].valor_base;
-            const baseEleckWh = fullData.indicadors_resum.indicadors[1].valor_base_consum;
-            const baseOficinaEURM = (fullData.consumibles_oficina?.resum?.total_gastat_EUR || 0) / 12;
-            const baseNetejaEURM = (fullData.productes_neteja?.resum?.total_gastat_EUR || 0) / 12;
+            // 1. OBTENIR DADES BASE (Diàries o Mensuals depenent del paràmetre al JSON)
+            const baseAiguaL_diari = fullData.indicadors_resum.indicadors[0].valor_base; // Litres/dia
+            const baseEleckWh_diari = fullData.indicadors_resum.indicadors[1].valor_base_consum; // kWh/dia
+            const baseOficinaEUR_mensual = (fullData.consumibles_oficina?.resum?.total_gastat_EUR || 0) / 12;
+            const baseNetejaEUR_mensual = (fullData.productes_neteja?.resum?.total_gastat_EUR || 0) / 12;
+            const baseMantEUR_mensual = (fullData.manteniment?.resum?.total_gastat_manteniment_EUR || 0) / 12;
+            const baseTelecomEUR_mensual = fullData.telecomunicacions?.resum?.cost_mensual_telecomunicacions_EUR || 0;
 
-            const baseTelecomEURM = fullData.telecomunicacions?.resum?.cost_mensual_telecomunicacions_EUR || 0;
-            const baseMantEURM = (fullData.manteniment?.resum?.total_gastat_manteniment_EUR || 0) / 12;
+            const diesAny = 365; // Representa els 365 dies del curs de Setembre a Agost
+            const mesosAny = 12; // Representa els 12 mesos del curs de Setembre a Agost
 
-            // Constants de temps
-            const diesAny = 365;
-            const diesCurs = 304;
-            const mesosAny = 12;
-            const mesosCurs = 10;
+            // Multiplicadors globals
+            const factorCost = 1 + IPC_ESTIMAT;
+            const factorConsum = 1 + VARIACIO_HISTORICA_CONSUM;
 
-            const format = (v) => v.toLocaleString('ca-ES', { maximumFractionDigits: 0 });
-            const formatDec = (v) => v.toLocaleString('ca-ES', { maximumFractionDigits: 1 });
+            // Funcions de formateig
+            const formatEur = (v) => v.toLocaleString('ca-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+            const formatFisic = (v, isM3) => v.toLocaleString('ca-ES', { maximumFractionDigits: isM3 ? 1 : 0 });
 
-            // Generació de la secció d'avaluació
-            const evalItems = [
+            // 2. CONSTRUIR ESTRUCTURA UNIFICADA (Històric vs Projecció amb Costs i Unitats Físiques)
+
+            // Valors totals històrics base
+            const histElecKWh = baseEleckWh_diari * diesAny;
+            const histAiguaM3 = (baseAiguaL_diari * diesAny) / 1000;
+            const histOficinaEur = baseOficinaEUR_mensual * mesosAny;
+            const histNetejaEur = baseNetejaEUR_mensual * mesosAny;
+            const histMantEur = baseMantEUR_mensual * mesosAny;
+
+            const dadesConsum = [
                 {
-                    titol: 'Consum Elèctric',
-                    unitat: 'kWh',
-                    icon: '⚡',
-                    proximAny: baseEleckWh * diesAny,
-                    periodeCurs: baseEleckWh * diesCurs,
-                    color: '#60a5fa'
+                    titol: 'Elèctric', icon: '⚡',
+                    // Principal (Físic)
+                    valPrinHist: histElecKWh, unitPrin: 'kWh', isM3: false,
+                    valPrinProj: histElecKWh * factorConsum,
+                    // Secundari (€)
+                    valSecHist: histElecKWh * PREU_ELEC_KWH, unitSec: '€',
+                    valSecProj: (histElecKWh * factorConsum) * (PREU_ELEC_KWH * factorCost),
+                    // Costs clars per a la gràfica i el total
+                    costHist: histElecKWh * PREU_ELEC_KWH,
+                    costProj: (histElecKWh * factorConsum) * (PREU_ELEC_KWH * factorCost),
+                    labelF: 'ús i preu'
                 },
                 {
-                    titol: 'Consum d\'Aigua',
-                    unitat: 'm³',
-                    icon: '💧',
-                    proximAny: (baseAiguaL * diesAny) / 1000,
-                    periodeCurs: (baseAiguaL * diesCurs) / 1000,
-                    isM3: true,
-                    color: '#34d399'
+                    titol: 'Aigua', icon: '💧',
+                    valPrinHist: histAiguaM3, unitPrin: 'm³', isM3: true,
+                    valPrinProj: histAiguaM3 * factorConsum,
+                    valSecHist: histAiguaM3 * PREU_AIGUA_M3, unitSec: '€',
+                    valSecProj: (histAiguaM3 * factorConsum) * (PREU_AIGUA_M3 * factorCost),
+                    costHist: histAiguaM3 * PREU_AIGUA_M3,
+                    costProj: (histAiguaM3 * factorConsum) * (PREU_AIGUA_M3 * factorCost),
+                    labelF: 'ús i preu'
                 },
                 {
-                    titol: 'Consumibles Oficina',
-                    unitat: '€',
-                    icon: '📄',
-                    proximAny: baseOficinaEURM * mesosAny,
-                    periodeCurs: baseOficinaEURM * mesosCurs,
-                    color: '#fbbf24'
+                    titol: 'Oficina', icon: '📄',
+                    // Principal (€)
+                    valPrinHist: histOficinaEur, unitPrin: '€', isM3: false,
+                    valPrinProj: (histOficinaEur / PREU_PAQUET_FOLIS * factorConsum) * (PREU_PAQUET_FOLIS * factorCost),
+                    // Secundari (Unitats Físiques estimades)
+                    valSecHist: histOficinaEur / PREU_PAQUET_FOLIS, unitSec: 'paquets',
+                    valSecProj: (histOficinaEur / PREU_PAQUET_FOLIS) * factorConsum,
+                    costHist: histOficinaEur,
+                    costProj: (histOficinaEur / PREU_PAQUET_FOLIS * factorConsum) * (PREU_PAQUET_FOLIS * factorCost),
+                    labelF: 'desgast i IPC'
                 },
                 {
-                    titol: 'Productes de Neteja',
-                    unitat: '€',
-                    icon: '🧼',
-                    proximAny: baseNetejaEURM * mesosAny,
-                    periodeCurs: baseNetejaEURM * mesosCurs,
-                    color: '#f87171'
+                    titol: 'Neteja', icon: '🧼',
+                    valPrinHist: histNetejaEur, unitPrin: '€', isM3: false,
+                    valPrinProj: (histNetejaEur / PREU_KG_NETEJA * factorConsum) * (PREU_KG_NETEJA * factorCost),
+                    valSecHist: histNetejaEur / PREU_KG_NETEJA, unitSec: 'kg prod.',
+                    valSecProj: (histNetejaEur / PREU_KG_NETEJA) * factorConsum,
+                    costHist: histNetejaEur,
+                    costProj: (histNetejaEur / PREU_KG_NETEJA * factorConsum) * (PREU_KG_NETEJA * factorCost),
+                    labelF: 'desgast i IPC'
+                },
+                {
+                    titol: 'Manteniment', icon: '🔧',
+                    valPrinHist: histMantEur, unitPrin: '€', isM3: false,
+                    valPrinProj: (histMantEur / PREU_INTERVENCIO * factorConsum) * (PREU_INTERVENCIO * factorCost),
+                    valSecHist: histMantEur / PREU_INTERVENCIO, unitSec: 'intervencions',
+                    valSecProj: (histMantEur / PREU_INTERVENCIO) * factorConsum,
+                    costHist: histMantEur,
+                    costProj: (histMantEur / PREU_INTERVENCIO * factorConsum) * (PREU_INTERVENCIO * factorCost),
+                    labelF: 'ús i IPC'
                 }
             ];
 
-            const evalContainer = document.getElementById('evaluacio-container');
-            evalContainer.innerHTML = evalItems.map(item => `
-                <div class="bg-white/5 border border-white/10 rounded-3xl p-8 hover:bg-white/[0.08] transition-colors">
-                    <div class="flex items-center gap-3 mb-6">
-                        <span class="text-3xl">${item.icon}</span>
-                        <h4 class="text-xl font-bold text-white">${item.titol}</h4>
+            // Funcions auxiliars per renderitzar sense repetir el símbol d'euro si ja és formatat
+            const renderValPrin = (val, unit, isM3) => unit === '€' ? formatEur(val) : formatFisic(val, isM3);
+            const renderValSec = (val, unit) => unit === '€' ? formatEur(val) : formatFisic(val, false);
+            const renderUnitTextPrin = (unit) => unit === '€' ? '' : unit;
+            const renderUnitTextSec = (unit) => unit === '€' ? '' : unit;
+
+            // 3. RENDERITZAR SECCIÓ HISTÒRIC
+            const histContainer = document.getElementById('historico-container');
+            histContainer.innerHTML = dadesConsum.map(item => `
+                <div class="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-6 relative">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-2xl">${item.icon}</span>
+                        <h4 class="text-lg font-bold text-slate-300">${item.titol}</h4>
                     </div>
-                    <div class="space-y-6">
-                        <div class="p-4 bg-slate-900/50 rounded-2xl">
-                            <span class="block text-xs uppercase text-slate-500 font-bold mb-2 tracking-wider">Pròxim Any (365d/12m)</span>
-                            <div class="flex items-baseline gap-2">
-                                <span class="text-4xl font-black mono text-white">${item.isM3 ? formatDec(item.proximAny) : format(item.proximAny)}</span>
-                                <span class="text-sm font-medium text-slate-400">${item.unitat}</span>
-                            </div>
+                    <div>
+                        <span class="block text-[10px] uppercase text-slate-500 font-bold mb-1">Total Curs 24/25</span>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-3xl font-black mono text-white">${renderValPrin(item.valPrinHist, item.unitPrin, item.isM3)}</span>
+                            <span class="text-sm text-slate-400">${renderUnitTextPrin(item.unitPrin)}</span>
                         </div>
-                        <div class="p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl">
-                            <span class="block text-xs uppercase text-emerald-500/60 font-bold mb-2 tracking-wider">Període Set-Jun (Curs)</span>
-                            <div class="flex items-baseline gap-2">
-                                <span class="text-3xl font-black mono text-emerald-400">${item.isM3 ? formatDec(item.periodeCurs) : format(item.periodeCurs)}</span>
-                                <span class="text-sm font-medium text-emerald-500/60">${item.unitat}</span>
-                            </div>
+                        <div class="mt-2 flex items-center gap-1.5 text-xs text-slate-400 bg-black/20 p-2 rounded-lg inline-flex">
+                            <span class="text-slate-500">≈</span>
+                            <span class="font-mono text-slate-300 font-bold">${renderValSec(item.valSecHist, item.unitSec)}</span>
+                            <span>${renderUnitTextSec(item.unitSec)}</span>
                         </div>
                     </div>
                 </div>
             `).join('');
 
-            renderChart(evalItems);
+            // 4. RENDERITZAR SECCIÓ PROJECCIÓ
+            const projContainer = document.getElementById('projeccio-container');
+            projContainer.innerHTML = dadesConsum.map(item => `
+                <div class="bg-white/5 border border-emerald-500/20 rounded-2xl p-6 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-emerald-500/20 text-emerald-400 text-[9px] font-bold px-2 py-1 rounded-bl-lg uppercase">
+                        + ${item.labelF}
+                    </div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-2xl">${item.icon}</span>
+                        <h4 class="text-lg font-bold text-white">${item.titol}</h4>
+                    </div>
+                    <div>
+                        <span class="block text-[10px] uppercase text-emerald-500/70 font-bold mb-1">Estimat Curs 25/26</span>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-3xl font-black mono text-emerald-400">${renderValPrin(item.valPrinProj, item.unitPrin, item.isM3)}</span>
+                            <span class="text-sm text-emerald-500/60">${renderUnitTextPrin(item.unitPrin)}</span>
+                        </div>
+                        <div class="mt-2 flex items-center gap-1.5 text-xs text-emerald-600/80 bg-emerald-900/10 p-2 rounded-lg inline-flex">
+                            <span>≈</span>
+                            <span class="font-mono text-emerald-500 font-bold">${renderValSec(item.valSecProj, item.unitSec)}</span>
+                            <span>${renderUnitTextSec(item.unitSec)}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
 
-            const aiguaAnualL = baseAiguaL * diesAny;
-            const elecAnualkWh = baseEleckWh * diesAny;
-            const costActual = (aiguaAnualL * 0.0021) + (elecAnualkWh * 0.18) + (baseOficinaEURM * 12) + (baseNetejaEURM * 12) + (baseTelecomEURM * 12) + (baseMantEURM * 12);
-            const costMillora = costActual * 0.7;
-            const estalviNet = costActual - costMillora;
+            // 5. GRÀFICA COMPARATIVA D'EUROS
+            renderChart(dadesConsum);
 
-            const formatCur = (v) => v.toLocaleString('ca-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+            // 6. CÀLCULS ECONÒMICS GLOBALS
+            const telecomHist = baseTelecomEUR_mensual * mesosAny;
+            const telecomProj = telecomHist * factorCost;
 
-            document.getElementById('total-actual').innerText = formatCur(costActual);
-            document.getElementById('total-millora').innerText = formatCur(costMillora);
-            document.getElementById('total-estalvi-valor').innerText = formatCur(estalviNet);
+            const costHistoric = dadesConsum.reduce((acc, item) => acc + item.costHist, 0) + telecomHist;
+            const costProjectat = dadesConsum.reduce((acc, item) => acc + item.costProj, 0) + telecomProj;
 
+            // Objectiu de millora (30% sobre el projectat)
+            const costMillora = costProjectat * 0.7;
+            const estalviNet = costProjectat - costMillora;
+
+            document.getElementById('total-historic').innerText = formatEur(costHistoric);
+            document.getElementById('total-projectat').innerText = formatEur(costProjectat);
+            document.getElementById('total-millora').innerText = formatEur(costMillora);
+            document.getElementById('total-estalvi-valor').innerText = formatEur(estalviNet);
+
+            // 7. ALTRES DADES DEL JSON
             const s = fullData.consum_electric_solar?.resum_gener_2025;
             if (s) {
                 document.getElementById('solar-cobertura').innerText = `${s["cobertura_solar_mitjana_%"]}%`;
@@ -330,49 +434,41 @@
             }
 
             document.getElementById('anomalies-list').innerHTML = `
-                <div class="flex gap-3">
-                    <div class="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 shrink-0"></div>
-                    <p class="text-[11px] text-slate-400"><strong class="text-slate-200">Aigua:</strong> ${fullData.consum_aigua?.resum?.anomalia_detectada || "Cap anomalia registrada"}</p>
+                <div class="flex gap-3 bg-red-500/10 p-3 rounded-xl border border-red-500/20">
+                    <div class="w-2 h-2 rounded-full bg-red-500 mt-1.5 shrink-0"></div>
+                    <p class="text-xs text-slate-300"><strong class="text-white">Aigua:</strong> ${fullData.consum_aigua?.resum?.anomalia_detectada || "Cap anomalia registrada"}</p>
                 </div>
-                <div class="flex gap-3">
-                    <div class="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 shrink-0"></div>
-                    <p class="text-[11px] text-slate-400"><strong class="text-slate-200">Oficina:</strong> ${fullData.consumibles_oficina?.resum?.observacio || "Sense observacions"}</p>
+                <div class="flex gap-3 bg-amber-500/10 p-3 rounded-xl border border-amber-500/20">
+                    <div class="w-2 h-2 rounded-full bg-amber-500 mt-1.5 shrink-0"></div>
+                    <p class="text-xs text-slate-300"><strong class="text-white">Oficina:</strong> ${fullData.consumibles_oficina?.resum?.observacio || "Sense observacions"}</p>
                 </div>
             `;
-            document.getElementById('context-text').innerText = `Dades basades en dades històriques d'ITB. Les projeccions del curs lectiu contemplen 304 dies d'activitat.`;
-
-            document.getElementById('plan-details').innerHTML = fullData.indicadors_resum.indicadors.map(ind => `
-                <div class="p-4 rounded-2xl bg-white/5 border border-white/5">
-                    <h4 class="text-xs font-bold text-emerald-400 mb-2 uppercase tracking-tighter">${ind.nom}</h4>
-                    <p class="text-[10px] text-slate-400 leading-tight">${ind.potencial_estalvi}</p>
-                </div>
-            `).join('');
         }
 
-        function renderChart(items) {
+        function renderChart(dades) {
             const ctx = document.getElementById('consumptionChart').getContext('2d');
             if (chartInstance) chartInstance.destroy();
 
             chartInstance = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: items.map(i => i.titol),
+                    labels: dades.map(i => i.titol),
                     datasets: [
                         {
-                            label: 'Pròxim Any (365d/12m)',
-                            data: items.map(i => i.proximAny),
-                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                            borderColor: 'rgba(255, 255, 255, 0.3)',
+                            label: 'Cost Històric (Curs 2024-2025)',
+                            data: dades.map(i => i.costHist),
+                            backgroundColor: 'rgba(148, 163, 184, 0.2)',
+                            borderColor: 'rgba(148, 163, 184, 0.8)',
                             borderWidth: 1,
-                            borderRadius: 8,
+                            borderRadius: 6,
                         },
                         {
-                            label: 'Període Lectiu (Set-Jun)',
-                            data: items.map(i => i.periodeCurs),
-                            backgroundColor: 'rgba(16, 185, 129, 0.6)',
+                            label: 'Cost Projectat (Curs 2025-2026)',
+                            data: dades.map(i => i.costProj),
+                            backgroundColor: 'rgba(16, 185, 129, 0.8)',
                             borderColor: '#10b981',
                             borderWidth: 1,
-                            borderRadius: 8,
+                            borderRadius: 6,
                         }
                     ]
                 },
@@ -380,7 +476,19 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { weight: '600' } } }
+                        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { weight: '600' } } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) label += ': ';
+                                    if (context.parsed.y !== null) {
+                                        label += new Intl.NumberFormat('ca-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
                     },
                     scales: {
                         y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#64748b' } },
