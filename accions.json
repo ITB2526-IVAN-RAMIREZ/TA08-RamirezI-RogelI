@@ -1,0 +1,46 @@
+{
+  "projecte": "Pla de Reducció ITB a 3 anys",
+  "objectiu_global": "Reducció del 30% en 3 anys",
+  "categories": [
+    {
+      "id": "aigua",
+      "titol": "Consum d'Aigua",
+      "icona": "💧",
+      "accions": [
+        { "id": "a1", "titol": "Eliminació consum nocturn", "descripcio": "Investigar i reparar possibles fuites detectades.", "estalvi_percent": 10, "estalvi_eur": 1500, "circular": false },
+        { "id": "a2", "titol": "Aixetes de baix cabal", "descripcio": "Instal·lar reductors de cabal temporitzats.", "estalvi_percent": 8, "estalvi_eur": 1200, "circular": false },
+        { "id": "a3", "titol": "Recollida d'aigua pluvial", "descripcio": "Sistema de recollida al terrat per a reg i neteja.", "estalvi_percent": 12, "estalvi_eur": 1800, "circular": true }
+      ]
+    },
+    {
+      "id": "electricitat",
+      "titol": "Electricitat i Solar",
+      "icona": "⚡",
+      "accions": [
+        { "id": "e1", "titol": "Ampliació panells solars", "descripcio": "Ampliar de 30.94 kWp a 60 kWp.", "estalvi_percent": 15, "estalvi_eur": 4500, "circular": true },
+        { "id": "e2", "titol": "Il·luminació LED + sensors", "descripcio": "Substituir fluorescents per LED i sensors de presència.", "estalvi_percent": 10, "estalvi_eur": 3000, "circular": true },
+        { "id": "e3", "titol": "Standby zero a les aules", "descripcio": "Regletes amb interruptor programat.", "estalvi_percent": 5, "estalvi_eur": 1500, "circular": false }
+      ]
+    },
+    {
+      "id": "oficina",
+      "titol": "Consumibles d'Oficina",
+      "icona": "📎",
+      "accions": [
+        { "id": "o1", "titol": "Digitalització documental", "descripcio": "Reduir les resmes semestrals amb gestió digital.", "estalvi_percent": 15, "estalvi_eur": 230, "circular": true },
+        { "id": "o2", "titol": "Impressió a doble cara", "descripcio": "Configuració per defecte a totes les impressores.", "estalvi_percent": 10, "estalvi_eur": 150, "circular": false },
+        { "id": "o3", "titol": "Retoladors recarregables", "descripcio": "Assegurar reciclatge i recàrrega de retoladors BEgreen.", "estalvi_percent": 5, "estalvi_eur": 75, "circular": true }
+      ]
+    },
+    {
+      "id": "neteja",
+      "titol": "Productes de Neteja",
+      "icona": "🧹",
+      "accions": [
+        { "id": "n1", "titol": "Assecadors d'aire elèctrics", "descripcio": "Substituir paper secamans per assecadors d'aire.", "estalvi_percent": 15, "estalvi_eur": 360, "circular": true },
+        { "id": "n2", "titol": "Productes concentrats ecològics", "descripcio": "Redueix envasos un 70%.", "estalvi_percent": 10, "estalvi_eur": 240, "circular": true },
+        { "id": "n3", "titol": "Microfibra reutilitzable", "descripcio": "Substituir material d'un sol ús.", "estalvi_percent": 5, "estalvi_eur": 120, "circular": true }
+      ]
+    }
+  ]
+}

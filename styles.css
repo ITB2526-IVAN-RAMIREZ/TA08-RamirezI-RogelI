@@ -1,0 +1,244 @@
+/* =========================================
+   VARIABLES GLOBALES (Paleta Dark Premium)
+   ========================================= */
+:root {
+    --bg-dark: #020617; /* Azul noche profundo para máximo contraste */
+    --bg-card: rgba(30, 41, 59, 0.4); /* Cristal más transparente */
+    --bg-card-hover: rgba(30, 41, 59, 0.7);
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+
+    /* Colores de acento Neón */
+    --emerald-500: #10b981;
+    --emerald-400: #34d399;
+    --emerald-bg: rgba(16, 185, 129, 0.1);
+
+    --blue-500: #3b82f6;
+    --blue-400: #60a5fa;
+    --blue-bg: rgba(59, 130, 246, 0.1);
+
+    --amber-500: #f59e0b;
+    --amber-400: #fbbf24;
+    --amber-bg: rgba(245, 158, 11, 0.1);
+
+    --magenta-400: #e879f9;
+    --magenta-bg: rgba(232, 121, 249, 0.1);
+}
+
+/* =========================================
+   ESTILOS BASE
+   ========================================= */
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+
+body {
+    background-color: var(--bg-dark);
+    /* Fondo con brillo radial suave en la parte superior para dar profundidad */
+    background-image: radial-gradient(circle at 50% -20%, #1e293b 0%, #020617 100%);
+    background-attachment: fixed;
+    color: var(--text-main);
+    padding-bottom: 120px; /* Espacio para la barra flotante */
+    line-height: 1.5;
+}
+
+.mono { font-family: 'Courier New', Courier, monospace; }
+
+/* =========================================
+   NAVEGACIÓN PREMIUM
+   ========================================= */
+.navbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(11, 17, 33, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-glass);
+    padding: 1rem 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 2rem;
+}
+
+.logo-container { display: flex; align-items: center; gap: 1rem; font-size: 1.25rem; font-weight: bold; }
+.logo-box {
+    background: linear-gradient(135deg, var(--blue-500), var(--emerald-500));
+    color: white; padding: 0.5rem 0.9rem; border-radius: 10px; font-weight: 900;
+}
+
+.nav-tabs { display: flex; gap: 0.5rem; }
+.nav-tabs a {
+    text-decoration: none; color: var(--text-muted);
+    padding: 0.6rem 1.4rem; border-radius: 9999px; font-weight: 600; font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+.nav-tabs a:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
+.nav-tabs a.active {
+    background: var(--emerald-bg); color: var(--emerald-400);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.15); /* Resplandor activo */
+}
+
+/* =========================================
+   ESTRUCTURA PRINCIPAL Y TARJETAS GLASS
+   ========================================= */
+.container { max-width: 1300px; margin: 0 auto; padding: 0 1.5rem; }
+
+header { margin-bottom: 3.5rem; text-align: left; }
+header h1 { font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem; color: white; letter-spacing: -1px; }
+header p { color: var(--text-muted); font-size: 1.1rem; }
+
+/* Grids */
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 1.5rem; }
+
+/* Tarjetas base con efecto cristal profundo */
+.glass-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border-glass);
+    border-radius: 24px; padding: 2rem;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
+}
+.glass-card.text-center { text-align: center; }
+
+/* Efecto levitación al pasar el ratón */
+.glass-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+}
+
+/* =========================================
+   TEXTOS BRILLANTES (EFECTO NEÓN)
+   ========================================= */
+.stat-value { font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem; letter-spacing: -1px; line-height: 1; }
+.stat-label { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+.text-emerald { color: var(--emerald-400); text-shadow: 0 0 15px rgba(52, 211, 153, 0.4); }
+.text-blue { color: var(--blue-400); text-shadow: 0 0 15px rgba(96, 165, 250, 0.4); }
+.text-amber { color: var(--amber-400); text-shadow: 0 0 15px rgba(251, 191, 36, 0.4); }
+.text-magenta { color: var(--magenta-400); text-shadow: 0 0 15px rgba(232, 121, 249, 0.4); }
+
+/* =========================================
+   KPI DASHBOARD 2x2 (Exclusivo para index.html)
+   ========================================= */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2x2 Fijo */
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* Bordes superiores de colores para las tarjetas grandes */
+.card-elec { border-top: 3px solid var(--amber-500); }
+.card-elec:hover { box-shadow: 0 15px 35px rgba(245, 158, 11, 0.15); }
+
+.card-water { border-top: 3px solid var(--blue-500); }
+.card-water:hover { box-shadow: 0 15px 35px rgba(59, 130, 246, 0.15); }
+
+.card-office { border-top: 3px solid var(--emerald-500); }
+.card-office:hover { box-shadow: 0 15px 35px rgba(16, 185, 129, 0.15); }
+
+.card-clean { border-top: 3px solid #d946ef; }
+.card-clean:hover { box-shadow: 0 15px 35px rgba(217, 70, 239, 0.15); }
+
+.card-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; color: white; }
+
+/* Cajas de estadísticas interiores adaptables */
+.kpi-stats {
+    display: flex;
+    flex-wrap: wrap; /* Arreglo para que no se aplasten */
+    gap: 1rem;
+}
+
+.stat-block {
+    flex: 1;
+    min-width: 160px; /* Ancho mínimo para que bajen a la siguiente línea si es estrecho */
+    background: rgba(0,0,0,0.3);
+    padding: 1.2rem;
+    border-radius: 16px;
+    border: 1px solid transparent;
+}
+.stat-block.projection {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Textos de los KPIs separados */
+.stat-label-sm {
+    display: block; font-size: 0.7rem; font-weight: 700; color: var(--text-muted);
+    margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px;
+    white-space: normal; line-height: 1.3;
+}
+.value-wrapper { display: flex; align-items: baseline; gap: 0.4rem; margin-bottom: 0.4rem; flex-wrap: wrap; }
+.val-num { font-size: 2rem; font-weight: 900; line-height: 1; color: white; }
+.val-unit { font-size: 0.9rem; color: var(--text-muted); font-weight: 700; }
+.val-cost { display: block; font-size: 0.8rem; color: var(--text-muted); padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); }
+
+/* Colorear el número de la proyección con brillo */
+.card-elec .projection .val-num { color: var(--amber-400); text-shadow: 0 0 10px rgba(245, 158, 11, 0.4); }
+.card-water .projection .val-num { color: var(--blue-400); text-shadow: 0 0 10px rgba(96, 165, 250, 0.4); }
+.card-office .projection .val-num { color: var(--emerald-400); text-shadow: 0 0 10px rgba(52, 211, 153, 0.4); }
+.card-clean .projection .val-num { color: var(--magenta-400); text-shadow: 0 0 10px rgba(232, 121, 249, 0.4); }
+
+/* =========================================
+   LISTA DE ACCIONES (Calculadora)
+   ========================================= */
+.category-header { display: flex; align-items: center; gap: 1rem; font-size: 1.5rem; font-weight: bold; margin-bottom: 1.5rem; color: white; }
+
+.action-item {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px; padding: 1.2rem; margin-bottom: 1rem;
+    display: flex; gap: 1.2rem; align-items: flex-start; transition: 0.3s;
+}
+.action-item:hover { border-color: rgba(16, 185, 129, 0.4); background: rgba(30, 41, 59, 0.8); transform: translateX(5px); }
+
+.action-item input[type="checkbox"] { margin-top: 0.2rem; transform: scale(1.4); cursor: pointer; accent-color: var(--emerald-500); }
+.action-details h4 { font-size: 1.1rem; margin-bottom: 0.4rem; color: white; cursor: pointer; transition: 0.2s; }
+.action-item:hover .action-details h4 { color: var(--emerald-400); }
+.action-details p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5; }
+
+/* Badges (Etiquetas) */
+.badges-container { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.badge { font-size: 0.7rem; font-weight: bold; padding: 5px 12px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+.badge-blue { background: var(--blue-bg); color: var(--blue-400); border: 1px solid rgba(59, 130, 246, 0.3); }
+.badge-amber { background: var(--amber-bg); color: var(--amber-400); border: 1px solid rgba(245, 158, 11, 0.3); }
+.badge-emerald { background: var(--emerald-bg); color: var(--emerald-400); border: 1px solid rgba(16, 185, 129, 0.3); }
+
+/* =========================================
+   BARRA FLOTANTE PREMIUM
+   ========================================= */
+.floating-bar {
+    position: fixed; bottom: 0; left: 0; width: 100%;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(25px);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 1.2rem 3rem; z-index: 1000;
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 -15px 40px rgba(0,0,0,0.6);
+}
+
+.floating-stats { display: flex; gap: 3rem; align-items: center; }
+.float-item { display: flex; flex-direction: column; }
+.float-val { font-size: 2rem; font-weight: 900; letter-spacing: -1px; }
+.separator { width: 1px; height: 45px; background-color: rgba(255,255,255,0.15); }
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--emerald-400), #059669);
+    color: white; border: none; padding: 1rem 2rem; border-radius: 12px;
+    font-size: 1rem; font-weight: 800; cursor: pointer; transition: 0.3s;
+    box-shadow: 0 5px 20px rgba(16, 185, 129, 0.3);
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5); }
+
+/* =========================================
+   RESPONSIVE (MÓVILES Y TABLETS)
+   ========================================= */
+@media (max-width: 900px) {
+    /* El 2x2 pasa a ser 1 columna en móviles */
+    .kpi-grid { grid-template-columns: 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .floating-stats { gap: 1.5rem; }
+    .hide-mobile, .separator { display: none; }
+    .float-val { font-size: 1.5rem; }
+    .navbar { flex-direction: column; gap: 1rem; padding: 1rem; }
+}
