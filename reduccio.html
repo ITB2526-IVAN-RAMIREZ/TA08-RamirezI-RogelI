@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Estratègies de reducció del consum energètic i de recursos de l'ITB.">
+  <title>Estratègies de Reducció — Calculadora ITB</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="app-wrapper">
+
+    <nav class="main-nav">
+      <div class="container nav-inner">
+        <a href="./index.html" class="nav-brand">
+          <span class="brand-icon">🌿</span>
+          Calculadora ITB
+        </a>
+        <button class="nav-hamburger" aria-label="Menú">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links">
+          <li><a href="./index.html">📊 Calculadora</a></li>
+          <li><a href="./reduccio.html" class="active">📉 Reducció</a></li>
+          <li><a href="./pla-accio.html">📋 Pla d'Acció</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="container" id="app-content">
+      <header class="hero">
+        <h1 id="centre-name">Institut Tecnològic de Barcelona</h1>
+        <p class="subtitle">Calculadora de Mesures d'Estalvi i Reducció per al curs <span class="dyn-year-next highlight-year"></span></p>
+      </header>
+
+      <section class="calc-section">
+        <div class="section-header">
+          <h2 class="section-title">🧮 Selecció de Mesures</h2>
+          <p class="section-subtitle" style="margin-top: 8px;">Marca les mesures que vols implementar. A la part inferior podràs veure l'estalvi econòmic en temps real calculat sobre el cost base.</p>
+        </div>
+
+        <div class="calc-grid" id="calc-grid">
+          <!-- Renderizado por reduction.js -->
+        </div>
+      </section>
+
+      <section class="calc-section" style="margin-top:var(--space-xl);">
+        <div class="section-header">
+          <h2 class="section-title">📊 Resum d'Impacte Potencial</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-lg);">
+          <div class="stat-highlight fade-in">
+            <div class="big-number green" id="global-reduction-target">-0%</div>
+            <div class="stat-label">Reducció global assolida</div>
+          </div>
+          <div class="stat-highlight fade-in fade-in-delay-1">
+            <div class="big-number blue">3 anys</div>
+            <div class="stat-label">Horitzó temporal</div>
+          </div>
+          <div class="stat-highlight fade-in fade-in-delay-2">
+            <div class="big-number purple" id="active-actions-count">0</div>
+            <div class="stat-label">Accions seleccionades</div>
+          </div>
+          <div class="stat-highlight fade-in fade-in-delay-3">
+            <div class="big-number amber">62%</div>
+            <div class="stat-label">Accions d'economia circular</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="main-footer" style="margin-bottom: 120px;">
+      <div class="container">
+        <p>🌿 Calculadora ITB — Estratègies de Reducció · Fase 3 · Dades: <a href="./data/dataclean.json" target="_blank" class="json-link"><code>dataclean.json</code></a></p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Sticky Footer Calculadora -->
+  <div class="sticky-summary" id="calculator-summary">
+    <div class="summary-stats">
+      <div class="summary-item">
+        <span class="summary-label">Mesures Marcades</span>
+        <span class="summary-value" style="color: var(--text-primary);" id="sum-count">0</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label">Reducció Est.</span>
+        <span class="summary-value" id="sum-percent">0,0%</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label">Estalvi Anual (<span class="dyn-year-next"></span>)</span>
+        <span class="summary-value" id="sum-savings">0,00 €</span>
+      </div>
+    </div>
+    <a href="./pla-accio.html" style="background:var(--text-accent); color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:600; text-align:center;">Veure Pla d'Acció →</a>
+  </div>
+
+  <script src="./js/calculator.js"></script>
+  <script src="./js/reduction.js"></script>
+</body>
+</html>
